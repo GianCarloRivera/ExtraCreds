@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="sportsShopApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gian's Sports Shop - AngularJS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="MainController">
+    <nav>
+        <div class="logo">Gian Shop</div>
+        <div class="nav-items">
+            <a href="#" class="active">Home</a>
+            <a href="#products">Products</a>
+            <a href="#" ng-click="toggleAccount()">
+                <i class="fas fa-user"></i> Account
+            </a>
+            <a href="#" ng-click="toggleCart()">
+                <i class="fas fa-shopping-cart"></i> Cart <span>{{cartCount()}}</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Welcome to Gian's Sports Shop</h1>
+        <p>Your one-stop destination for quality sports equipment</p>
+    </div>
+
+    <section id="products" class="products">
+        <h2>Featured Products</h2>
+        <div class="product-grid">
+            <div class="product-card" ng-repeat="product in products">
+                <img ng-src="{{product.image}}" alt="{{product.name}}">
+                <h3>{{product.name}}</h3>
+                <p class="price">{{product.price}}</p>
+                <button ng-click="addToCart(product)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+  
+    <div class="modal" ng-show="isCartOpen">
+        <div class="modal-content">
+            <span class="close" ng-click="toggleCart()">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cartItems">
+                <div class="cart-item" ng-repeat="item in cart">
+                    <span>{{item.name}} x {{item.quantity}}</span>
+                    <span>{{item.price}} x {{item.quantity}}</span>
+                    <button ng-click="removeFromCart(item)">Remove</button>
+                </div>
+            </div>
+            <div class="cart-total">
+                <h3>Total: ₱{{cartTotal()}}</h3>
+                <button ng-click="proceedToCheckout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div class="modal" ng-show="isAccountOpen">
+        <div class="modal-content">
+            <span class="close" ng-click="toggleAccount()">&times;</span>
+            <h2>Account</h2>
+            <form id="loginForm" ng-submit="login()">
+                <input type="email" ng-model="loginData.email" placeholder="Email" required>
+                <input type="password" ng-model="loginData.password" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <p>Don't have an account? <a href="#" id="signupLink">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" ng-show="isCheckoutOpen">
+        <div class="modal-content">
+            <span class="close" ng-click="toggleCheckout()">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkoutForm" ng-submit="placeOrder()">
+                <input type="text" ng-model="checkoutData.fullName" placeholder="Full Name" required>
+                <input type="email" ng-model="checkoutData.email" placeholder="Email" required>
+                <input type="text" ng-model="checkoutData.address" placeholder="Address" required>
+                <input type="text" ng-model="checkoutData.phone" placeholder="Phone Number" required>
+                <h3>Total Amount: ₱{{cartTotal()}}</h3>
+                <button type="submit">Place Order</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
