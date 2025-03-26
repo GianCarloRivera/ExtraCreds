@@ -1,0 +1,21 @@
+import React from 'react';
+
+const Navbar = ({ cartCount, onCartClick, onAccountClick }) => {
+  return (
+    <nav>
+      <div className="logo">Gian Shop</div>
+      <div className="nav-items">
+        <a href="#" className="active">Home</a>
+        <a href="#products">Products</a>
+        <a href="#" onClick={onAccountClick}>
+          <i className="fas fa-user"></i> Account
+        </a>
+        <a href="#" onClick={onCartClick}>
+          <i className="fas fa-shopping-cart"></i> Cart <span>{cartCount}</span>
+        </a>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
